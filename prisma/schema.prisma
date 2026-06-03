@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  RESERVED
+  UNDER_MAINTENANCE
+  INACTIVE
+}
+
+enum BookingStatus {
+  PENDING
+  HELD
+  AWAITING_PAYMENT
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  NOT_REQUIRED
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  MOBILE_MONEY
+  PAY_ON_ARRIVAL
+  BANK_TRANSFER
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(ADMIN)
+  createdAt    DateTime   @default(now())
+  auditLogs    AuditLog[]
+}
+
+model Property {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String
+  address     String
+  phone       String
+  email       String
+  whatsapp    String
+  mapUrl      String?
+  roomTypes   RoomType[]
+  settings    PropertySetting[]
+  policies    Policy[]
+}
+
+model RoomType {
+  id                 String            @id @default(cuid())
+  propertyId         String
+  property           Property          @relation(fields: [propertyId], references: [id])
+  name               String
+  slug               String            @unique
+  description        String
+  maxGuests          Int
+  bedConfiguration   String
+  roomSize           String
+  baseNightlyRate    Decimal           @db.Decimal(10, 2)
+  promotionalRate    Decimal?          @db.Decimal(10, 2)
+  taxRate            Decimal           @default(0.18) @db.Decimal(5, 2)
+  serviceFee         Decimal           @default(0) @db.Decimal(10, 2)
+  cancellationPolicy String
+  checkInTime        String            @default("14:00")
+  checkOutTime       String            @default("11:00")
+  rooms              Room[]
+  images             RoomImage[]
+  amenities          RoomTypeAmenity[]
+  ratePlans          RatePlan[]
+  seasonalRates      SeasonalRate[]
+  bookings           BookingRoom[]
+  holds              BookingHold[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+}
+
+model Room {
+  id         String        @id @default(cuid())
+  roomTypeId String
+  roomType   RoomType      @relation(fields: [roomTypeId], references: [id])
+  number     String        @unique
+  floor      String
+  status     RoomStatus    @default(AVAILABLE)
+  notes      String?
+  bookings   BookingRoom[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Amenity {
+  id        String            @id @default(cuid())
+  name      String            @unique
+  icon      String?
+  roomTypes RoomTypeAmenity[]
+}
+
+model RoomTypeAmenity {
+  roomTypeId String
+  amenityId  String
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+  amenity    Amenity  @relation(fields: [amenityId], references: [id])
+
+  @@id([roomTypeId, amenityId])
+}
+
+model RoomImage {
+  id         String   @id @default(cuid())
+  roomTypeId String
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+  url        String
+  alt        String
+  sortOrder  Int      @default(0)
+}
+
+model RatePlan {
+  id          String   @id @default(cuid())
+  roomTypeId  String
+  roomType    RoomType @relation(fields: [roomTypeId], references: [id])
+  name        String
+  description String
+  refundable  Boolean  @default(true)
+  mealPlan    String?
+}
+
+model SeasonalRate {
+  id          String   @id @default(cuid())
+  roomTypeId  String
+  roomType    RoomType @relation(fields: [roomTypeId], references: [id])
+  startsAt    DateTime
+  endsAt      DateTime
+  nightlyRate Decimal  @db.Decimal(10, 2)
+
+  @@index([roomTypeId, startsAt, endsAt])
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  reference       String        @unique
+  status          BookingStatus @default(PENDING)
+  checkIn         DateTime
+  checkOut        DateTime
+  adults          Int
+  children        Int           @default(0)
+  totalAmount     Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+  specialRequests String?
+  arrivalTime     String?
+  guest           BookingGuest?
+  rooms           BookingRoom[]
+  payments        Payment[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([checkIn, checkOut, status])
+}
+
+model BookingGuest {
+  id        String  @id @default(cuid())
+  bookingId String  @unique
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  fullName  String
+  email     String
+  phone     String
+  country   String
+}
+
+model BookingRoom {
+  id          String   @id @default(cuid())
+  bookingId   String
+  roomTypeId  String
+  roomId      String?
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  roomType    RoomType @relation(fields: [roomTypeId], references: [id])
+  room        Room?    @relation(fields: [roomId], references: [id])
+  nightlyRate Decimal  @db.Decimal(10, 2)
+
+  @@index([roomTypeId])
+  @@index([roomId])
+}
+
+model BookingHold {
+  id         String   @id @default(cuid())
+  roomTypeId String
+  roomType   RoomType @relation(fields: [roomTypeId], references: [id])
+  checkIn    DateTime
+  checkOut   DateTime
+  quantity   Int      @default(1)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([roomTypeId, checkIn, checkOut, expiresAt])
+}
+
+model Payment {
+  id          String         @id @default(cuid())
+  bookingId   String
+  booking     Booking        @relation(fields: [bookingId], references: [id])
+  provider    String
+  method      PaymentMethod
+  status      PaymentStatus  @default(PENDING)
+  amount      Decimal        @db.Decimal(10, 2)
+  currency    String         @default("USD")
+  providerRef String?
+  events      PaymentEvent[]
+  createdAt   DateTime       @default(now())
+}
+
+model PaymentEvent {
+  id        String   @id @default(cuid())
+  paymentId String
+  payment   Payment  @relation(fields: [paymentId], references: [id])
+  type      String
+  payload   Json
+  createdAt DateTime @default(now())
+}
+
+model Policy {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  key        String
+  title      String
+  body       String
+}
+
+model PropertySetting {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  key        String
+  value      String
+
+  @@unique([propertyId, key])
+}
+
+model ContactRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model AiConversation {
+  id        String       @id @default(cuid())
+  guestName String?
+  status    String       @default("open")
+  messages  AiMessage[]
+  toolCalls AiToolCall[]
+  createdAt DateTime     @default(now())
+}
+
+model AiMessage {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id])
+  role           String
+  content        String
+  createdAt      DateTime       @default(now())
+}
+
+model AiToolCall {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id])
+  toolName       String
+  input          Json
+  output         Json?
+  createdAt      DateTime       @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,163 @@
+import type { Booking, BookingHold, Room, RoomType } from "@/lib/types";
+
+export const property = {
+  name: "JB Executive Suites",
+  slug: "jb-executive-suites",
+  description:
+    "A polished serviced apartment address in Kampala for business travelers, relocating families, and long-stay guests who want quiet rooms, flexible service, and dependable hospitality.",
+  address: "Plot 24, Executive Close, Kampala, Uganda",
+  phone: "+256 700 000 000",
+  email: "reservations@jbexecutivesuites.com",
+  whatsapp: process.env.WHATSAPP_NUMBER || "+256700000000",
+  mapUrl: "https://maps.google.com/?q=Kampala%20Uganda",
+};
+
+const image = (name: string) => `/images/${name}.jpg`;
+
+export const roomTypes: RoomType[] = [
+  {
+    id: "standard",
+    name: "Standard Room",
+    slug: "standard-room",
+    description: "Efficient, bright rooms for short business stays with a work desk and private bath.",
+    images: [{ url: image("standard-room"), alt: "Standard room with queen bed and writing desk" }],
+    maxGuests: 2,
+    bedConfiguration: "1 queen bed",
+    roomSize: "28 sqm",
+    amenities: ["Wi-Fi", "Air conditioning", "Smart TV", "Desk", "Ensuite bathroom"],
+    baseNightlyRate: 75,
+    promotionalRate: 68,
+    taxRate: 0.18,
+    serviceFee: 8,
+    cancellationPolicy: "Free cancellation until 48 hours before arrival.",
+    checkInTime: "14:00",
+    checkOutTime: "11:00",
+  },
+  {
+    id: "deluxe",
+    name: "Deluxe Room",
+    slug: "deluxe-room",
+    description: "A larger room with lounge seating, premium linens, and a calm executive finish.",
+    images: [{ url: image("deluxe-room"), alt: "Deluxe room with lounge chair and city-facing window" }],
+    maxGuests: 2,
+    bedConfiguration: "1 king bed",
+    roomSize: "34 sqm",
+    amenities: ["Wi-Fi", "Breakfast option", "Air conditioning", "Mini fridge", "Workspace"],
+    baseNightlyRate: 95,
+    promotionalRate: 88,
+    taxRate: 0.18,
+    serviceFee: 10,
+    cancellationPolicy: "Free cancellation until 72 hours before arrival.",
+    checkInTime: "14:00",
+    checkOutTime: "11:00",
+  },
+  {
+    id: "executive",
+    name: "Executive Suite",
+    slug: "executive-suite",
+    description: "A suite-style stay with a separate living area, kitchenette, and extended-stay comfort.",
+    images: [{ url: image("executive-suite"), alt: "Executive suite with separate seating area and kitchenette" }],
+    maxGuests: 3,
+    bedConfiguration: "1 king bed and sofa bed",
+    roomSize: "48 sqm",
+    amenities: ["Kitchenette", "Wi-Fi", "Laundry access", "Lounge area", "Parking"],
+    baseNightlyRate: 135,
+    promotionalRate: 122,
+    taxRate: 0.18,
+    serviceFee: 15,
+    cancellationPolicy: "Free cancellation until 5 days before arrival.",
+    checkInTime: "14:00",
+    checkOutTime: "11:00",
+  },
+  {
+    id: "twin",
+    name: "Twin Room",
+    slug: "twin-room",
+    description: "A practical twin layout for colleagues, friends, and training-trip guests.",
+    images: [{ url: image("twin-room"), alt: "Twin room with two beds and shared work surface" }],
+    maxGuests: 2,
+    bedConfiguration: "2 single beds",
+    roomSize: "31 sqm",
+    amenities: ["Wi-Fi", "Air conditioning", "Smart TV", "Wardrobe", "Ensuite bathroom"],
+    baseNightlyRate: 85,
+    taxRate: 0.18,
+    serviceFee: 8,
+    cancellationPolicy: "Free cancellation until 48 hours before arrival.",
+    checkInTime: "14:00",
+    checkOutTime: "11:00",
+  },
+  {
+    id: "family",
+    name: "Family Suite",
+    slug: "family-suite",
+    description: "A flexible two-zone suite for families, longer visits, or guests needing extra space.",
+    images: [{ url: image("family-suite"), alt: "Family suite with king bed and adjoining lounge" }],
+    maxGuests: 5,
+    bedConfiguration: "1 king bed, 2 single beds",
+    roomSize: "62 sqm",
+    amenities: ["Kitchenette", "Wi-Fi", "Dining nook", "Laundry access", "Parking"],
+    baseNightlyRate: 165,
+    promotionalRate: 150,
+    taxRate: 0.18,
+    serviceFee: 20,
+    cancellationPolicy: "Free cancellation until 5 days before arrival.",
+    checkInTime: "14:00",
+    checkOutTime: "11:00",
+  },
+];
+
+export const rooms: Room[] = [
+  ...Array.from({ length: 5 }, (_, index) => ({ id: `std-${index + 1}`, number: `10${index + 1}`, floor: "1", roomTypeId: "standard", status: "available" as const })),
+  ...Array.from({ length: 5 }, (_, index) => ({ id: `dlx-${index + 1}`, number: `20${index + 1}`, floor: "2", roomTypeId: "deluxe", status: index === 4 ? ("under_maintenance" as const) : ("available" as const) })),
+  ...Array.from({ length: 4 }, (_, index) => ({ id: `exe-${index + 1}`, number: `30${index + 1}`, floor: "3", roomTypeId: "executive", status: "available" as const })),
+  ...Array.from({ length: 3 }, (_, index) => ({ id: `twn-${index + 1}`, number: `40${index + 1}`, floor: "4", roomTypeId: "twin", status: "available" as const })),
+  ...Array.from({ length: 3 }, (_, index) => ({ id: `fam-${index + 1}`, number: `50${index + 1}`, floor: "5", roomTypeId: "family", status: index === 2 ? ("inactive" as const) : ("available" as const) })),
+];
+
+export const sampleBookings: Booking[] = [
+  {
+    id: "booking-1",
+    reference: "JB-2026-1001",
+    roomTypeId: "executive",
+    roomId: "exe-1",
+    checkIn: "2026-06-10",
+    checkOut: "2026-06-14",
+    status: "confirmed",
+    adults: 2,
+    children: 0,
+    totalAmount: 590,
+    guest: { fullName: "Amina Kato", email: "amina@example.com", phone: "+256701111111", country: "Uganda" },
+  },
+  {
+    id: "booking-2",
+    reference: "JB-2026-1002",
+    roomTypeId: "standard",
+    roomId: "std-2",
+    checkIn: "2026-06-12",
+    checkOut: "2026-06-13",
+    status: "awaiting_payment",
+    adults: 1,
+    children: 0,
+    totalAmount: 88,
+    guest: { fullName: "Daniel Reed", email: "daniel@example.com", phone: "+15551230000", country: "United States" },
+  },
+];
+
+export const sampleHolds: BookingHold[] = [
+  {
+    id: "hold-1",
+    roomTypeId: "deluxe",
+    checkIn: "2026-06-18",
+    checkOut: "2026-06-20",
+    quantity: 1,
+    expiresAt: "2026-06-18T10:30:00.000Z",
+  },
+];
+
+export const facilities = ["Secure parking", "High-speed Wi-Fi", "Daily housekeeping", "Laundry access", "Airport pickup", "Breakfast on request"];
+export const policies = [
+  { title: "Check-in", body: "Check-in starts at 2:00 PM. Early check-in is subject to availability." },
+  { title: "Check-out", body: "Check-out is by 11:00 AM. Late check-out can be requested with the front desk." },
+  { title: "Cancellation", body: "Cancellation windows vary by room type and rate plan. Confirm the policy before payment." },
+  { title: "Payments", body: "Card, mobile money, bank transfer, and approved pay-on-arrival flows are supported through adapters." },
+];
