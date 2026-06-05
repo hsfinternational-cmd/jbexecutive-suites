@@ -1,23 +1,36 @@
+import Image from "next/image";
 import Link from "next/link";
-import { property } from "@/lib/data";
+import { property, toCallHref } from "@/lib/data";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-[var(--line)] bg-[#151515] py-10 text-white">
-      <div className="container-shell grid gap-8 md:grid-cols-3">
+    <footer className="mt-20 bg-[var(--brand-charcoal)] py-12 pb-28 text-white sm:pb-12">
+      <div className="container-shell grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div>
-          <p className="text-lg font-semibold">{property.name}</p>
-          <p className="mt-3 text-sm leading-6 text-white/70">{property.description}</p>
+          <Image src="/images/brand/jb-executive-suites-logo.png" alt="JB Executive Suites logo" width={420} height={106} className="h-auto w-full max-w-sm rounded-xl bg-white p-3" />
+          <p className="mt-5 max-w-md text-sm leading-7 text-white/75">{property.description}</p>
         </div>
-        <div className="text-sm text-white/75">
+        <div className="space-y-3 text-sm text-white/80">
+          <p className="font-semibold text-white">Contact</p>
           <p>{property.address}</p>
-          <p className="mt-2">{property.phone}</p>
-          <p>{property.email}</p>
+          {property.phoneNumbers.map((phone) => (
+            <Link key={phone} href={toCallHref(phone)} className="block hover:text-white">
+              {phone}
+            </Link>
+          ))}
+          <Link href={property.whatsappUrl} className="block hover:text-white">
+            WhatsApp booking
+          </Link>
+          <Link href={property.googleDirectionsUrl} className="block hover:text-white">
+            Google Maps directions
+          </Link>
         </div>
-        <div className="flex flex-col gap-2 text-sm text-white/75">
-          <Link href="/manage-booking">Manage booking</Link>
-          <Link href="/admin/login">Admin login</Link>
-          <Link href="/policies">Policies</Link>
+        <div className="space-y-3 text-sm text-white/80">
+          <p className="font-semibold text-white">Explore</p>
+          <Link href="/rooms" className="block hover:text-white">Rooms</Link>
+          <Link href="/gallery" className="block hover:text-white">Gallery</Link>
+          <Link href="/location" className="block hover:text-white">Location</Link>
+          <Link href="/book" className="block hover:text-white">Booking inquiry</Link>
         </div>
       </div>
     </footer>

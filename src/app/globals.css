@@ -1,31 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f4ef;
-  --foreground: #151515;
-  --muted: #6b665d;
+  --background: #faf7f2;
+  --foreground: #24312b;
+  --muted: #6b7280;
   --panel: #ffffff;
-  --line: #ded7cc;
-  --brand: #0f5132;
-  --brand-strong: #0b3b25;
-  --accent: #b98338;
+  --line: #e5e7eb;
+  --brand-green: #056839;
+  --brand-green-dark: #004d2b;
+  --brand-orange: #f26c25;
+  --brand-orange-light: #f47a2a;
+  --brand-charcoal: #24312b;
+  --brand-mist: #f5f7f4;
+  --brand-white: #ffffff;
+  --brand-cream: #faf7f2;
+  --brand-border: #e5e7eb;
+  --brand-muted: #6b7280;
+  --radius-card: 18px;
+  --shadow-soft: 0 12px 30px rgba(36, 49, 43, 0.1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(242, 108, 37, 0.08), transparent 30%),
+    linear-gradient(180deg, #fffefc 0%, #faf7f2 50%, #f5f7f4 100%);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
 }
 
 a {
   text-underline-offset: 4px;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: var(--font-display), Georgia, serif;
 }
 
 .container-shell {
@@ -35,6 +58,12 @@ a {
 
 .image-wash {
   background:
-    linear-gradient(180deg, rgba(8, 19, 14, 0.15), rgba(8, 19, 14, 0.62)),
-    linear-gradient(90deg, rgba(15, 81, 50, 0.64), rgba(185, 131, 56, 0.18));
+    linear-gradient(180deg, rgba(5, 104, 57, 0.1), rgba(36, 49, 43, 0.7)),
+    linear-gradient(90deg, rgba(5, 104, 57, 0.72), rgba(242, 108, 37, 0.18));
+}
+
+.soft-band {
+  background:
+    linear-gradient(120deg, rgba(5, 104, 57, 0.05), rgba(242, 108, 37, 0.06)),
+    var(--brand-white);
 }

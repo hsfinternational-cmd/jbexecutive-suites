@@ -1,7 +1,7 @@
 # Architecture
 
-JB Executive Suites uses Next.js App Router with server-rendered pages and focused client components for chat. The current MVP reads deterministic seed-backed data from `src/lib/data.ts` so the UI runs immediately, while `prisma/schema.prisma` and `prisma/seed.ts` define the production PostgreSQL shape.
+JB Executive Suites uses Next.js App Router with a content-first public site and supporting admin/API surfaces. The approved business details, room options, rates, map links, amenities and gallery references are centralized in `src/lib/data.ts`, which now acts as the short-term CMS-style configuration layer for the brand refresh.
 
-Inventory is represented as physical `Room` records attached to configurable `RoomType` records. Availability checks subtract active bookings, active unexpired holds, and non-available physical rooms. In production, booking creation should run in a serializable transaction and lock candidate room rows before creating `Booking`, `BookingRoom`, `Payment`, and audit records.
+The public booking journey is intentionally lightweight: search and inquiry surfaces route guests into a structured WhatsApp message and direct staff confirmation flow. This matches the current approved business process and avoids inventing unsupported instant-confirmation behavior.
 
-Payment and AI integrations are isolated behind adapters. The placeholder payment provider refuses fake external success in production and exposes webhook signature verification placeholders. The AI assistant can only call explicitly defined tools with Zod-validated input; it never mutates booking state directly.
+The repository still includes the broader booking domain model in Prisma for future expansion. Inventory is represented as physical `Room` records attached to configurable `RoomType` records, and the booking rules module still supports availability checks, holds and status transitions. Payment and AI integrations remain behind adapters so they can be swapped or expanded later without changing the public UI architecture.

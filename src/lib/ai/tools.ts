@@ -55,7 +55,7 @@ export const aiTools = {
   },
   requestHumanHandoff: {
     schema: z.object({ name: z.string().optional(), phone: z.string().optional(), message: z.string() }),
-    run: (input: { name?: string; phone?: string; message: string }) => ({ queued: true, whatsapp: property.whatsapp, ...input }),
+    run: (input: { name?: string; phone?: string; message: string }) => ({ queued: true, whatsapp: property.whatsappNumber, ...input }),
   },
 };
 
@@ -65,14 +65,14 @@ export function answerGuestMessage(message: string) {
     return "Share your check-in date, check-out date, guests, and preferred room type, and I can check availability through the booking engine.";
   }
   if (normalized.includes("price") || normalized.includes("rate")) {
-    const lead = roomTypes.map((room) => `${room.name}: from $${room.promotionalRate ?? room.baseNightlyRate}`).join(", ");
+    const lead = roomTypes.map((room) => `${room.name}: from UGX ${(room.promotionalRate ?? room.baseNightlyRate).toLocaleString("en-UG")}`).join(", ");
     return `Current starting rates are ${lead}. Final totals include taxes and service fees after dates are selected.`;
   }
   if (normalized.includes("wifi") || normalized.includes("parking") || normalized.includes("breakfast")) {
     return `Yes. Key facilities include ${facilities.join(", ")}. Breakfast is available on request.`;
   }
   if (normalized.includes("whatsapp") || normalized.includes("human") || normalized.includes("callback")) {
-    return `I can hand you to reservations on WhatsApp at ${property.whatsapp}.`;
+    return `I can hand you to reservations on WhatsApp at ${property.whatsappNumber}.`;
   }
   return "I can help with rooms, prices, amenities, availability, directions, booking retrieval, and human handoff. What dates are you considering?";
 }

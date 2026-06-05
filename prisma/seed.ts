@@ -9,8 +9,26 @@ async function main() {
   const adminPassword = process.env.ADMIN_PASSWORD || "change-me-in-production";
   const savedProperty = await prisma.property.upsert({
     where: { slug: property.slug },
-    update: property,
-    create: property,
+    update: {
+      name: property.name,
+      slug: property.slug,
+      description: property.description,
+      address: property.address,
+      phone: property.phone,
+      email: property.email,
+      whatsapp: property.whatsapp,
+      mapUrl: property.googleMapUrl,
+    },
+    create: {
+      name: property.name,
+      slug: property.slug,
+      description: property.description,
+      address: property.address,
+      phone: property.phone,
+      email: property.email,
+      whatsapp: property.whatsapp,
+      mapUrl: property.googleMapUrl,
+    },
   });
 
   for (const name of facilities) {
@@ -23,9 +41,9 @@ async function main() {
       update: {
         name: roomType.name,
         description: roomType.description,
-        maxGuests: roomType.maxGuests,
-        bedConfiguration: roomType.bedConfiguration,
-        roomSize: roomType.roomSize,
+        maxGuests: roomType.maxGuests ?? 2,
+        bedConfiguration: roomType.bedConfiguration ?? "Configuration to be confirmed",
+        roomSize: roomType.roomSize ?? "To be confirmed",
         baseNightlyRate: roomType.baseNightlyRate,
         promotionalRate: roomType.promotionalRate,
         taxRate: roomType.taxRate,
@@ -37,9 +55,9 @@ async function main() {
         name: roomType.name,
         slug: roomType.slug,
         description: roomType.description,
-        maxGuests: roomType.maxGuests,
-        bedConfiguration: roomType.bedConfiguration,
-        roomSize: roomType.roomSize,
+        maxGuests: roomType.maxGuests ?? 2,
+        bedConfiguration: roomType.bedConfiguration ?? "Configuration to be confirmed",
+        roomSize: roomType.roomSize ?? "To be confirmed",
         baseNightlyRate: roomType.baseNightlyRate,
         promotionalRate: roomType.promotionalRate,
         taxRate: roomType.taxRate,

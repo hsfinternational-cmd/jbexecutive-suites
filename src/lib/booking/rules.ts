@@ -43,7 +43,7 @@ export function checkAvailability(
   const guestCount = request.adults + (request.children ?? 0);
   return roomTypes
     .filter((roomType) => !request.roomTypeId || roomType.id === request.roomTypeId)
-    .filter((roomType) => roomType.maxGuests >= guestCount)
+    .filter((roomType) => (roomType.maxGuests ?? 8) >= guestCount)
     .map((roomType) => {
       const physicalRooms = rooms.filter((room) => room.roomTypeId === roomType.id && room.status === "available").length;
       const booked = bookings.filter(

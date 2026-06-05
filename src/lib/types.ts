@@ -16,9 +16,9 @@ export type RoomType = {
   slug: string;
   description: string;
   images: { url: string; alt: string }[];
-  maxGuests: number;
-  bedConfiguration: string;
-  roomSize: string;
+  maxGuests?: number;
+  bedConfiguration?: string;
+  roomSize?: string;
   amenities: string[];
   baseNightlyRate: number;
   promotionalRate?: number;

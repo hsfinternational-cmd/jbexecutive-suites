@@ -1,26 +1,28 @@
 import Link from "next/link";
+import { BookingInquiryForm } from "@/components/booking-inquiry-form";
 import { PageShell } from "@/components/page-shell";
-import { property } from "@/lib/data";
+import { property, toCallHref } from "@/lib/data";
 
 export default function ContactPage() {
   return (
     <PageShell>
       <section className="container-shell grid gap-8 py-14 lg:grid-cols-2">
         <div>
-          <h1 className="text-5xl font-semibold">Contact</h1>
-          <p className="mt-5 text-[var(--muted)]">{property.phone}</p>
-          <p className="text-[var(--muted)]">{property.email}</p>
-          <Link href={`https://wa.me/${property.whatsapp.replace(/\D/g, "")}`} className="mt-6 inline-flex rounded-md bg-[var(--brand)] px-5 py-3 font-semibold text-white">Open WhatsApp</Link>
-        </div>
-        <form className="rounded-lg bg-white p-6 shadow-sm">
-          <div className="grid gap-4">
-            <input aria-label="Name" placeholder="Name" className="h-11 rounded-md border border-[var(--line)] px-3" />
-            <input aria-label="Email" type="email" placeholder="Email" className="h-11 rounded-md border border-[var(--line)] px-3" />
-            <input aria-label="Phone" placeholder="Phone" className="h-11 rounded-md border border-[var(--line)] px-3" />
-            <textarea aria-label="Message" placeholder="Message" rows={5} className="rounded-md border border-[var(--line)] px-3 py-2" />
-            <button className="rounded-md bg-[var(--brand)] px-5 py-3 font-semibold text-white">Send request</button>
+          <h1 className="text-5xl text-[var(--brand-green)]">Contact JB Executive Suites</h1>
+          <p className="mt-5 text-[var(--brand-muted)]">{property.address}</p>
+          <div className="mt-6 grid gap-3">
+            {property.phoneNumbers.map((phone) => (
+              <Link key={phone} href={toCallHref(phone)} className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[var(--brand-charcoal)] shadow-[var(--shadow-soft)]">
+                {phone}
+              </Link>
+            ))}
           </div>
-        </form>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href={property.whatsappUrl} className="inline-flex rounded-full bg-[var(--brand-green)] px-5 py-3 font-semibold text-white">WhatsApp booking</Link>
+            <Link href={property.googleDirectionsUrl} className="inline-flex rounded-full border border-[var(--brand-border)] px-5 py-3 font-semibold text-[var(--brand-charcoal)]">Directions</Link>
+          </div>
+        </div>
+        <BookingInquiryForm />
       </section>
     </PageShell>
   );

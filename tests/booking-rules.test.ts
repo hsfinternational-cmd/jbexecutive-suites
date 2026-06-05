@@ -8,9 +8,9 @@ describe("booking rules", () => {
   it("calculates pricing with nights, tax, service fee, and promotional rate", () => {
     const quote = calculateQuote(roomTypes[0], "2026-07-01", "2026-07-04");
     expect(quote.nights).toBe(3);
-    expect(quote.subtotal).toBe(204);
-    expect(quote.taxes).toBe(36.72);
-    expect(quote.total).toBe(248.72);
+    expect(quote.subtotal).toBe(150000);
+    expect(quote.taxes).toBe(0);
+    expect(quote.total).toBe(150000);
   });
 
   it("detects expired and active holds", () => {
@@ -19,7 +19,7 @@ describe("booking rules", () => {
   });
 
   it("subtracts active bookings from availability to prevent double booking", () => {
-    const bookings: Booking[] = Array.from({ length: 5 }, (_, index) => ({
+    const bookings: Booking[] = Array.from({ length: 8 }, (_, index) => ({
       id: `b-${index}`,
       reference: `JB-X-${index}`,
       roomTypeId: "standard",
@@ -49,6 +49,6 @@ describe("AI tool validation", () => {
   });
 
   it("returns room type data through explicit tools", () => {
-    expect(aiTools.listRoomTypes.run()).toEqual(expect.arrayContaining([expect.objectContaining({ slug: "executive-suite" })]));
+    expect(aiTools.listRoomTypes.run()).toEqual(expect.arrayContaining([expect.objectContaining({ slug: "executive-room" })]));
   });
 });
