@@ -67,3 +67,19 @@ h3,
     linear-gradient(120deg, rgba(5, 104, 57, 0.05), rgba(242, 108, 37, 0.06)),
     var(--brand-white);
 }
+
+.loading-bar {
+  animation: loading-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-120%);
+  }
+  50% {
+    transform: translateX(60%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}

@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Playfair_Display } from "next/font/google";
-import { property } from "@/lib/data";
+import { brand, property } from "@/lib/data";
 import "./globals.css";
 
 const display = Playfair_Display({
@@ -24,6 +24,21 @@ export const metadata: Metadata = {
   },
   description:
     "Stay at JB Executive Suites in Buwate, Mulawa. Enjoy clean self-contained rooms, breakfast, secure parking, free Wi-Fi, DSTV and 24/7 CCTV surveillance. Book directly by phone or WhatsApp.",
+  applicationName: property.name,
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/images/brand/jb-monogram.png", sizes: "361x361", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/images/brand/jb-monogram.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: property.name,
+  },
   openGraph: {
     title: "JB Executive Suites",
     description:
@@ -37,6 +52,11 @@ export const metadata: Metadata = {
     description: property.tagline,
     images: ["/images/property/exterior-main-building.webp"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: brand.green,
+  colorScheme: "light",
 };
 
 export default function RootLayout({

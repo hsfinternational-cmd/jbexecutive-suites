@@ -28,7 +28,18 @@ export default function Home() {
     <PageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative min-h-[740px] overflow-hidden bg-[var(--brand-green-dark)] text-white">
-        <Image src="/images/property/exterior-main-building.webp" alt="Exterior and courtyard view of JB Executive Suites in Buwate, Mulawa." fill priority className="object-cover object-center opacity-85" sizes="100vw" />
+        <video
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-85"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/property/exterior-main-building.webp"
+          aria-label="Looping property showcase video of JB Executive Suites"
+        >
+          <source src="/videos/jb-hero-loop.mp4" type="video/mp4" />
+        </video>
         <div className="image-wash absolute inset-0" />
         <div className="container-shell relative flex min-h-[740px] flex-col justify-end pb-12 pt-24">
           <div className="max-w-3xl pb-8">
