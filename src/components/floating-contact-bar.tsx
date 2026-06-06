@@ -42,11 +42,87 @@ const quickReplies = [
   { label: "Location", prompt: "Where are you located?" },
 ];
 
+function matchRoom(message: string) {
+  const normalized = message.toLowerCase();
+  return roomTypes.find(
+    (roomType) =>
+      normalized.includes(roomType.name.toLowerCase()) ||
+      normalized.includes(roomType.slug.toLowerCase()) ||
+      normalized.includes(roomType.id.toLowerCase()),
+  );
+}
+
+function extractGuests(message: string) {
+  const guestMatch = message.match(/(\d+)\s*(guest|guests|adult|adults|person|people|pax)/i);
+  return guestMatch?.[1];
+}
+
+function extractPhone(message: string) {
+  const phoneMatch = message.match(/(\+?\d[\d\s-]{7,}\d)/);
+  return phoneMatch?.[1]?.trim();
+}
+
+function extractEmail(message: string) {
+  const emailMatch = message.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i);
+  return emailMatch?.[0];
+}
+
+function extractIsoDates(message: string) {
+  const dates = message.match(/\b\d{4}-\d{2}-\d{2}\b/g) ?? [];
+  return {
+    checkIn: dates[0],
+    checkOut: dates[1],
+  };
+}
+
+function inferDraftFromMessage(message: string): Partial<BookingDraft> {
+  const room = matchRoom(message);
+  const dates = extractIsoDates(message);
+
+  return {
+    roomTypeId: room?.id,
+    roomName: room?.name,
+    guests: extractGuests(message),
+    telephone: extractPhone(message),
+    email: extractEmail(message),
+    checkIn: dates.checkIn,
+    checkOut: dates.checkOut,
+  };
+}
+
+function getMissingBookingStep(draft: BookingDraft): BookingStep {
+  if (!draft.guestName) return "name";
+  if (!draft.telephone) return "phone";
+  if (!draft.roomName) return "room";
+  if (!draft.checkIn) return "checkIn";
+  if (!draft.checkOut) return "checkOut";
+  if (!draft.guests) return "guests";
+  if (draft.email === undefined) return "email";
+  if (draft.message === undefined) return "notes";
+  return "done";
+}
+
+function summarizeDetectedDetails(draft: Partial<BookingDraft>) {
+  const parts = [
+    draft.roomName ? `room: ${draft.roomName}` : null,
+    draft.checkIn ? `check-in: ${draft.checkIn}` : null,
+    draft.checkOut ? `check-out: ${draft.checkOut}` : null,
+    draft.guests ? `guests: ${draft.guests}` : null,
+    draft.telephone ? `phone: ${draft.telephone}` : null,
+    draft.email ? `email: ${draft.email}` : null,
+  ].filter(Boolean);
+
+  return parts.length ? `I picked up ${parts.join(", ")}.` : "";
+}
+
 function answerImmediately(message: string) {
   const normalized = message.toLowerCase();
   const rates = roomTypes
     .map((room) => `${room.name}: from ${formatUGX(room.promotionalRate ?? room.baseNightlyRate)} per night`)
     .join(". ");
+  const room = matchRoom(message);
+  const guests = extractGuests(message);
+  const dates = extractIsoDates(message);
 
   if (
     normalized.includes("book") ||
@@ -55,16 +131,27 @@ function answerImmediately(message: string) {
     normalized.includes("check in") ||
     normalized.includes("stay")
   ) {
+    const detailSummary = summarizeDetectedDetails({
+      roomName: room?.name,
+      guests,
+      checkIn: dates.checkIn,
+      checkOut: dates.checkOut,
+    });
+
     return {
-      reply:
+      reply: [
         "Absolutely. I can collect your stay details now and prepare a WhatsApp booking request for the JB Suites team to confirm availability.",
+        detailSummary,
+      ]
+        .filter(Boolean)
+        .join(" "),
       booking: true,
     };
   }
 
   if (normalized.includes("price") || normalized.includes("rate") || normalized.includes("cost")) {
     return {
-      reply: rates,
+      reply: room ? `${room.name} starts from ${formatUGX(room.promotionalRate ?? room.baseNightlyRate)} per night.` : rates,
       booking: false,
     };
   }
@@ -147,10 +234,25 @@ export function FloatingContactBar() {
     setMessages((current) => [...current, { id: `guest-${current.length + 1}`, role: "guest", content }]);
   }
 
-  function resetBooking() {
-    setBookingDraft({});
-    setBookingStep("name");
-    appendAssistant(nextBookingPrompt("name"), "booking-start");
+  function beginBookingWithContext(message: string) {
+    const inferred = inferDraftFromMessage(message);
+    const nextDraft: BookingDraft = {
+      ...inferred,
+    };
+    const nextStep = getMissingBookingStep(nextDraft);
+
+    setBookingDraft(nextDraft);
+    setBookingStep(nextStep);
+
+    if (nextStep === "done") {
+      finishBooking({
+        ...nextDraft,
+      });
+      return;
+    }
+
+    const detailSummary = summarizeDetectedDetails(nextDraft);
+    appendAssistant([detailSummary, nextBookingPrompt(nextStep)].filter(Boolean).join(" "), "booking-start");
   }
 
   function finishBooking(updatedDraft: BookingDraft) {
@@ -217,10 +319,7 @@ export function FloatingContactBar() {
     }
 
     if (bookingStep === "email") {
-      const nextDraft = {
-        ...bookingDraft,
-        email: value.toLowerCase() === "skip" ? "" : value,
-      };
+      const nextDraft = { ...bookingDraft, email: value.toLowerCase() === "skip" ? "" : value };
       setBookingDraft(nextDraft);
       setBookingStep("notes");
       appendAssistant(nextBookingPrompt("notes"));
@@ -252,7 +351,7 @@ export function FloatingContactBar() {
     appendAssistant(response.reply);
 
     if (response.booking) {
-      resetBooking();
+      beginBookingWithContext(trimmed);
     }
   }
 
@@ -292,7 +391,7 @@ export function FloatingContactBar() {
                 <Image src={brand.monogram} alt="JB Executive Suites" width={44} height={44} className="h-11 w-11 object-contain" />
               </div>
               <div>
-                <p className="text-sm font-semibold">JB AI Concierge</p>
+                <p className="text-sm font-semibold">JB Concierge</p>
                 <p className="text-xs text-white/80">Instant replies and booking handoff</p>
               </div>
             </div>
@@ -300,7 +399,7 @@ export function FloatingContactBar() {
               type="button"
               onClick={() => setOpen(false)}
               className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10"
-              aria-label="Close JB AI concierge"
+              aria-label="Close JB concierge"
             >
               <X size={18} />
             </button>
@@ -388,7 +487,7 @@ export function FloatingContactBar() {
                     submitMessage();
                   }
                 }}
-                placeholder={bookingStep ? "Type your reply..." : "Ask JB AI concierge anything..."}
+                placeholder={bookingStep ? "Type your reply..." : "Ask JB concierge anything..."}
                 className="h-12 min-w-0 flex-1 rounded-full border border-[var(--brand-border)] px-4 text-sm text-[var(--brand-charcoal)] outline-none placeholder:text-[var(--brand-muted)]"
               />
               <button
@@ -432,7 +531,7 @@ export function FloatingContactBar() {
         type="button"
         onClick={() => setOpen((current) => !current)}
         className="fixed bottom-4 right-4 z-50 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-[var(--shadow-soft)]"
-        aria-label="Open JB AI concierge"
+        aria-label="Open JB concierge"
       >
         <Image src={brand.monogram} alt="JB Executive Suites logo" width={56} height={56} className="h-12 w-12 object-contain" />
         <span className="absolute -right-0.5 -top-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-orange)] text-white">
