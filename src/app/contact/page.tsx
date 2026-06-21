@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BookingInquiryForm } from "@/components/booking-inquiry-form";
 import { PageShell } from "@/components/page-shell";
-import { property, toCallHref } from "@/lib/data";
+import { paymentOptions, property, toCallHref } from "@/lib/data";
 
 export default function ContactPage() {
   return (
@@ -20,6 +20,12 @@ export default function ContactPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href={property.whatsappUrl} className="inline-flex rounded-full bg-[var(--brand-green)] px-5 py-3 font-semibold text-white">WhatsApp booking</Link>
             <Link href={property.googleDirectionsUrl} className="inline-flex rounded-full border border-[var(--brand-border)] px-5 py-3 font-semibold text-[var(--brand-charcoal)]">Directions</Link>
+          </div>
+          <div className="mt-8 rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-soft)]">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--brand-orange)]">Payment options</p>
+            <div className="mt-4 grid gap-2 text-sm text-[var(--brand-muted)] sm:grid-cols-2">
+              {paymentOptions.map((option) => <p key={option}>{option}</p>)}
+            </div>
           </div>
         </div>
         <BookingInquiryForm />

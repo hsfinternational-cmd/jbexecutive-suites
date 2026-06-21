@@ -18,11 +18,11 @@ export const property = {
   name: "JB Executive Suites",
   slug: "jb-executive-suites",
   tagline: "Where Cleanliness Meets Comfort",
-  supportLine: "Clean, secure and comfortable stays in Buwate, Mulawa.",
+  supportLine: "Clean, secure and comfortable stays in Kira, Mulawa.",
   description:
-    "JB Executive Suites offers clean, comfortable and secure short-stay accommodation in Buwate, Mulawa for guests who value practical convenience, fair room options and dependable hospitality.",
-  address: "Buwate, Mulawa, Shimoni Road, Wakiso District, Uganda",
-  locationLabel: "Kira - Mulawa, Shimoni Road",
+    "JB Executive Suites offers clean, comfortable and secure short-stay accommodation in Kira, Mulawa, Wakiso District for guests who value practical convenience, fair room options and dependable hospitality.",
+  address: "Kira, Mulawa, Shimoni Road, Wakiso District, Uganda",
+  locationLabel: "Kira, Mulawa, Wakiso District",
   phoneNumbers: ["0393003491", "0705963661"],
   primaryPhone: "0393003491",
   secondaryPhone: "0705963661",
@@ -41,7 +41,7 @@ export const property = {
   priceRange: "UGX 50,000-100,000",
 };
 
-export const trustSignals = ["Bed and breakfast", "Secure parking", "24/7 CCTV", "Free Wi-Fi", "DSTV"];
+export const trustSignals = ["Bed and breakfast", "Secure car parking", "24/7 CCTV surveillance", "Free Wi-Fi", "DSTV"];
 
 export const facilities = [
   "Self-contained rooms",
@@ -55,10 +55,17 @@ export const facilities = [
 ];
 
 export const nearbyPlaces = [
-  "TotalEnergies Bulindo Service Station",
+  "TotalEnergies Mulawa Service Station",
   "JTee Supermarket",
-  "Restaurants and bars around the Kira-Bulindo area",
+  "Restaurants and bars around the Kira-Mulawa area",
   "Additional nearby shops and local services shown on the supplied map",
+];
+
+export const paymentOptions = [
+  "Mobile money",
+  "Cash or pay on arrival after confirmation",
+  "Bank transfer",
+  "Card payment when the provider is enabled",
 ];
 
 export const policies = [
@@ -78,14 +85,14 @@ export const policies = [
 
 export const galleryCollections = [
   {
-    title: "Property exterior",
-    image: "/images/property/exterior-main-building.webp",
-    alt: "Exterior view of JB Executive Suites in Buwate, Mulawa.",
+    title: "Flat exterior and car parking",
+    image: "/images/property/courtyard.webp",
+    alt: "Flat exterior and secure car parking area at JB Executive Suites.",
   },
   {
-    title: "Courtyard and parking",
-    image: "/images/property/courtyard.webp",
-    alt: "Courtyard and secure parking area at JB Executive Suites.",
+    title: "Prepared guest bed",
+    image: "/images/property/exterior-main-building.webp",
+    alt: "Neatly prepared guest bed at JB Executive Suites.",
   },
   {
     title: "Guest room",

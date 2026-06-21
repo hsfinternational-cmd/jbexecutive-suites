@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MapPin, MessageCircleMore, Phone, Send, Sparkles, X } from "lucide-react";
-import { brand, buildWhatsAppMessage, facilities, formatUGX, property, roomTypes, toCallHref } from "@/lib/data";
+import { brand, buildWhatsAppMessage, facilities, formatUGX, paymentOptions, property, roomTypes, toCallHref } from "@/lib/data";
 
 type ChatMessage = {
   id: string;
@@ -39,6 +39,7 @@ const quickReplies = [
   { label: "Book a room", prompt: "I want to book a room" },
   { label: "Show rates", prompt: "Show room prices" },
   { label: "Amenities", prompt: "What amenities do you have?" },
+  { label: "Payments", prompt: "What payment options do you accept?" },
   { label: "Location", prompt: "Where are you located?" },
 ];
 
@@ -152,6 +153,13 @@ function answerImmediately(message: string) {
   if (normalized.includes("price") || normalized.includes("rate") || normalized.includes("cost")) {
     return {
       reply: room ? `${room.name} starts from ${formatUGX(room.promotionalRate ?? room.baseNightlyRate)} per night.` : rates,
+      booking: false,
+    };
+  }
+
+  if (normalized.includes("pay") || normalized.includes("payment") || normalized.includes("mobile money") || normalized.includes("bank transfer") || normalized.includes("card")) {
+    return {
+      reply: `Payment options include ${paymentOptions.join(", ")}. Please confirm availability with the JB Suites team before making any payment.`,
       booking: false,
     };
   }

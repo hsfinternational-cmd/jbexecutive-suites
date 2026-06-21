@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, MapPin, Phone } from "lucide-react";
 import { BookingSearch } from "@/components/booking-search";
 import { PageShell } from "@/components/page-shell";
 import { RoomCard } from "@/components/room-card";
-import { facilities, galleryCollections, nearbyPlaces, property, roomTypes, toCallHref, trustSignals } from "@/lib/data";
+import { facilities, galleryCollections, nearbyPlaces, paymentOptions, property, roomTypes, toCallHref, trustSignals } from "@/lib/data";
 
 export default function Home() {
   const jsonLd = {
@@ -44,7 +44,7 @@ export default function Home() {
         <div className="container-shell relative flex min-h-[740px] flex-col justify-end pb-12 pt-24">
           <div className="max-w-3xl pb-8">
             <p className="mb-4 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur">
-              Buwate, Mulawa, Wakiso District
+              {property.locationLabel}
             </p>
             <h1 className="max-w-4xl text-5xl leading-tight md:text-7xl">{property.tagline}</h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-white/86">{property.supportLine}</p>
@@ -120,15 +120,25 @@ export default function Home() {
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)]">Amenities</p>
             <h2 className="mt-4 text-3xl text-[var(--brand-green)] md:text-5xl">Clean rooms, breakfast, security and easy access to support.</h2>
             <p className="mt-4 text-[var(--brand-muted)]">
-              The most important information appears early: secure parking, Wi-Fi, breakfast, DSTV and the reassurance of 24/7 CCTV surveillance.
+              The most important information appears early: secure car parking, Wi-Fi, breakfast, DSTV and the reassurance of 24/7 CCTV surveillance.
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {facilities.map((facility) => (
-              <p key={facility} className="rounded-[var(--radius-card)] border border-[var(--brand-border)] bg-white p-4 shadow-[var(--shadow-soft)]">
-                {facility}
-              </p>
-            ))}
+          <div className="grid gap-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {facilities.map((facility) => (
+                <p key={facility} className="rounded-[var(--radius-card)] border border-[var(--brand-border)] bg-white p-4 shadow-[var(--shadow-soft)]">
+                  {facility}
+                </p>
+              ))}
+            </div>
+            <div className="rounded-[var(--radius-card)] border border-[var(--brand-border)] bg-white p-5 shadow-[var(--shadow-soft)]">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--brand-orange)]">Payment options</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {paymentOptions.map((option) => (
+                  <p key={option} className="text-sm text-[var(--brand-charcoal)]">{option}</p>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -155,14 +165,14 @@ export default function Home() {
       <section className="container-shell grid gap-8 py-8 lg:grid-cols-[1fr_0.9fr]">
         <div className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-soft)]">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)]">Location</p>
-          <h2 className="mt-3 text-4xl text-[var(--brand-green)]">Easy to find in Buwate, Mulawa.</h2>
+          <h2 className="mt-3 text-4xl text-[var(--brand-green)]">Easy to find in Kira, Mulawa.</h2>
           <p className="mt-4 flex items-center gap-3 text-[var(--brand-muted)]">
             <MapPin size={18} className="text-[var(--brand-green)]" />
             {property.address}
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href={property.googleDirectionsUrl} className="rounded-full bg-[var(--brand-green)] px-5 py-3 font-semibold text-white">
-              Open directions
+              Open pinned directions
             </Link>
             <Link href="/location" className="rounded-full border border-[var(--brand-border)] px-5 py-3 font-semibold text-[var(--brand-charcoal)]">
               View map

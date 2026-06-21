@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the official website for JB Executive Suites, a comfortable accommodation property in Buwate, Mulawa, Wakiso District, Uganda. The site is designed for direct mobile-first inquiries, room discovery, location lookup and WhatsApp-assisted bookings.
+This repository contains the official website for JB Executive Suites, a comfortable accommodation property in Kira, Mulawa, Wakiso District, Uganda. The site is designed for direct mobile-first inquiries, room discovery, location lookup and WhatsApp-assisted bookings.
 
 ## Brand
 
@@ -18,6 +18,7 @@ This repository contains the official website for JB Executive Suites, a comfort
 - Room listings
 - Gallery
 - WhatsApp booking inquiry flow
+- Payment options display
 - Click-to-call actions
 - Location and Google Maps directions
 - Nearby conveniences section
@@ -45,9 +46,16 @@ Pricing is configurable from the content model in `src/lib/data.ts`.
 
 ## Location
 
-- Address: Buwate, Mulawa, Shimoni Road, Wakiso District, Uganda
+- Address: Kira, Mulawa, Shimoni Road, Wakiso District, Uganda
 - Coordinates: `0.410776, 32.641678`
 - Google Maps directions: `https://www.google.com/maps/dir/?api=1&destination=0.410776,32.641678`
+
+## Payment Options
+
+- Mobile money
+- Cash or pay on arrival after confirmation
+- Bank transfer
+- Card payment when the provider is enabled
 
 ## Contact
 

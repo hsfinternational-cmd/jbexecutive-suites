@@ -19,11 +19,11 @@ export const metadata: Metadata = {
       (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
   ),
   title: {
-    default: "JB Executive Suites | Comfortable Accommodation in Buwate, Mulawa",
+    default: "JB Executive Suites | Comfortable Accommodation in Kira, Mulawa",
     template: "%s | JB Executive Suites",
   },
   description:
-    "Stay at JB Executive Suites in Buwate, Mulawa. Enjoy clean self-contained rooms, breakfast, secure parking, free Wi-Fi, DSTV and 24/7 CCTV surveillance. Book directly by phone or WhatsApp.",
+    "Stay at JB Executive Suites in Kira, Mulawa, Wakiso District. Enjoy clean self-contained rooms, breakfast, secure car parking, free Wi-Fi, DSTV and 24/7 CCTV surveillance. Book directly by phone or WhatsApp.",
   applicationName: property.name,
   manifest: "/manifest.webmanifest",
   icons: {
@@ -42,15 +42,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "JB Executive Suites",
     description:
-      "Clean, comfortable and secure accommodation in Buwate, Mulawa with breakfast, parking, Wi-Fi and direct WhatsApp booking.",
+      "Clean, comfortable and secure accommodation in Kira, Mulawa with breakfast, secure car parking, Wi-Fi and direct WhatsApp booking.",
     type: "website",
-    images: ["/images/property/exterior-main-building.webp"],
+    images: ["/images/property/courtyard.webp"],
   },
   twitter: {
     card: "summary_large_image",
     title: "JB Executive Suites",
     description: property.tagline,
-    images: ["/images/property/exterior-main-building.webp"],
+    images: ["/images/property/courtyard.webp"],
   },
 };
 

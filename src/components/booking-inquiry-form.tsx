@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buildWhatsAppMessage, property, roomTypes } from "@/lib/data";
+import { buildWhatsAppMessage, paymentOptions, property, roomTypes } from "@/lib/data";
 
 export function BookingInquiryForm({
   initialRoomTypeId,
@@ -77,6 +77,12 @@ export function BookingInquiryForm({
         <div className="rounded-3xl bg-[var(--brand-mist)] p-4 text-sm leading-6 text-[var(--brand-muted)]">
           <p className="font-semibold text-[var(--brand-charcoal)]">Before payment</p>
           <p className="mt-2">Availability should be confirmed by the JB Executive Suites team before any payment is made.</p>
+        </div>
+      </div>
+      <div className="rounded-3xl border border-[var(--brand-border)] bg-[var(--brand-mist)] p-4">
+        <p className="text-sm font-semibold text-[var(--brand-charcoal)]">Payment options</p>
+        <div className="mt-3 grid gap-2 text-sm text-[var(--brand-muted)] sm:grid-cols-2">
+          {paymentOptions.map((option) => <p key={option}>{option}</p>)}
         </div>
       </div>
       <label className="text-sm font-semibold text-[var(--brand-charcoal)]">

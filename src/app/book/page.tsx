@@ -1,6 +1,6 @@
 import { BookingInquiryForm } from "@/components/booking-inquiry-form";
 import { PageShell } from "@/components/page-shell";
-import { formatUGX, property, roomTypes } from "@/lib/data";
+import { formatUGX, paymentOptions, property, roomTypes } from "@/lib/data";
 
 export default async function BookPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const params = await searchParams;
@@ -24,6 +24,12 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
           <p className="mt-3 text-sm leading-7 text-[var(--brand-muted)]">{selected.description}</p>
           <p className="mt-4 text-3xl font-bold text-[var(--brand-charcoal)]">{formatUGX(selected.promotionalRate ?? selected.baseNightlyRate)}</p>
           <p className="mt-3 text-sm text-[var(--brand-muted)]">{property.tagline}</p>
+          <div className="mt-6 rounded-3xl bg-[var(--brand-mist)] p-4">
+            <p className="text-sm font-semibold text-[var(--brand-charcoal)]">Payment options</p>
+            <div className="mt-3 space-y-2 text-sm text-[var(--brand-muted)]">
+              {paymentOptions.map((option) => <p key={option}>{option}</p>)}
+            </div>
+          </div>
         </aside>
       </section>
     </PageShell>
