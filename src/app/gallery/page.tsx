@@ -8,7 +8,7 @@ export default function GalleryPage() {
       <section className="container-shell py-14">
         <h1 className="text-5xl text-[var(--brand-green)]">Gallery</h1>
         <p className="mt-4 max-w-2xl text-[var(--brand-muted)]">
-          Bright, truthful images of the rooms, flat exterior, secure car parking area and guest spaces at JB Executive Suites.
+          A full visual look at JB Executive Suites, including the front building, courtyard wing, paved compound, rooms and shared guest spaces.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {galleryCollections.map((item) => (

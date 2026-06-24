@@ -3,8 +3,9 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPin, Phone } from "lucide-react";
 import { BookingSearch } from "@/components/booking-search";
 import { PageShell } from "@/components/page-shell";
+import { PropertyHeroSlideshow } from "@/components/property-hero-slideshow";
 import { RoomCard } from "@/components/room-card";
-import { facilities, galleryCollections, nearbyPlaces, paymentOptions, property, roomTypes, toCallHref, trustSignals } from "@/lib/data";
+import { facilities, galleryCollections, nearbyPlaces, paymentOptions, property, propertyShowcaseImages, roomTypes, toCallHref, trustSignals } from "@/lib/data";
 
 export default function Home() {
   const jsonLd = {
@@ -28,21 +29,9 @@ export default function Home() {
     <PageShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative min-h-[740px] overflow-hidden bg-[var(--brand-green-dark)] text-white">
-        <video
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-85"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/images/property/exterior-main-building.webp"
-          aria-label="Looping property showcase video of JB Executive Suites"
-        >
-          <source src="/videos/jb-hero-loop.mp4" type="video/mp4" />
-        </video>
         <div className="image-wash absolute inset-0" />
-        <div className="container-shell relative flex min-h-[740px] flex-col justify-end pb-12 pt-24">
-          <div className="max-w-3xl pb-8">
+        <div className="container-shell relative grid min-h-[740px] gap-10 pb-12 pt-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="max-w-3xl pb-2 lg:pb-8">
             <p className="mb-4 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur">
               {property.locationLabel}
             </p>
@@ -53,8 +42,8 @@ export default function Home() {
                 Book on WhatsApp
                 <ArrowRight size={18} />
               </Link>
-              <Link href="/rooms" className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 font-semibold text-white">
-                View Rooms
+              <Link href="/gallery" className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 font-semibold text-white">
+                View Property
               </Link>
               <Link href={toCallHref(property.primaryPhone)} className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 font-semibold text-white">
                 <Phone size={18} />
@@ -62,7 +51,10 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <BookingSearch />
+          <PropertyHeroSlideshow images={propertyShowcaseImages} />
+          <div className="lg:col-span-2">
+            <BookingSearch />
+          </div>
         </div>
       </section>
 
@@ -80,16 +72,16 @@ export default function Home() {
       <section id="overview" className="container-shell grid gap-10 py-10 md:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)]">Overview</p>
-          <h2 className="mt-3 text-4xl leading-tight text-[var(--brand-green)] md:text-5xl">A calm and credible place to stay near everyday essentials in Mulawa.</h2>
+          <h2 className="mt-3 text-4xl leading-tight text-[var(--brand-green)] md:text-5xl">See the full property before you book, from the front porch to the courtyard wing.</h2>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
             {property.description}
           </p>
         </div>
         <div className="grid gap-3">
           {[
-            "Mobile-first direct booking flow",
+            "Full exterior building views on the homepage and gallery",
+            "Secure paved compound with room to arrive comfortably",
             "Rates from UGX 50,000",
-            "Google Maps directions to the property",
             "WhatsApp and click-to-call support",
           ].map((item) => (
             <p key={item} className="flex items-center gap-3 rounded-[var(--radius-card)] bg-white p-4 shadow-[var(--shadow-soft)]">
@@ -146,8 +138,8 @@ export default function Home() {
       <section className="container-shell py-16">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)]">Gallery preview</p>
-            <h2 className="mt-3 text-4xl text-[var(--brand-green)] md:text-5xl">A truthful look at the rooms and shared spaces.</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)]">Property preview</p>
+            <h2 className="mt-3 text-4xl text-[var(--brand-green)] md:text-5xl">A clearer executive view of the full building, compound and guest spaces.</h2>
           </div>
           <Link href="/gallery" className="hidden rounded-full border border-[var(--brand-green)] px-4 py-2 text-sm font-semibold text-[var(--brand-green)] md:inline-flex">
             Open gallery
@@ -156,7 +148,7 @@ export default function Home() {
         <div className="grid gap-4 md:grid-cols-4">
           {galleryCollections.slice(0, 4).map((item) => (
             <div key={item.image} className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)]">
-              <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="25vw" />
+              <Image src={item.image} alt={item.alt} fill className="bg-[var(--brand-green-dark)] object-contain" sizes="25vw" />
             </div>
           ))}
         </div>

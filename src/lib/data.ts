@@ -18,7 +18,7 @@ export const property = {
   name: "JB Executive Suites",
   slug: "jb-executive-suites",
   tagline: "Where Cleanliness Meets Comfort",
-  supportLine: "Clean, secure and comfortable stays in Kira, Mulawa.",
+  supportLine: "Full property views, secure courtyard space and comfortable stays in Kira, Mulawa.",
   description:
     "JB Executive Suites offers clean, comfortable and secure short-stay accommodation in Kira, Mulawa, Wakiso District for guests who value practical convenience, fair room options and dependable hospitality.",
   address: "Kira, Mulawa, Shimoni Road, Wakiso District, Uganda",
@@ -85,14 +85,34 @@ export const policies = [
 
 export const galleryCollections = [
   {
-    title: "Flat exterior and car parking",
-    image: "/images/property/courtyard.webp",
-    alt: "Flat exterior and secure car parking area at JB Executive Suites.",
+    title: "Full front building view",
+    image: "/images/property/building-front-overview.png",
+    alt: "Full exterior view of the main JB Executive Suites building and paved frontage.",
   },
   {
-    title: "Prepared guest bed",
-    image: "/images/property/exterior-main-building.webp",
-    alt: "Neatly prepared guest bed at JB Executive Suites.",
+    title: "Front porch and executive entrance",
+    image: "/images/property/building-front-porch.png",
+    alt: "Front porch and entry approach at JB Executive Suites.",
+  },
+  {
+    title: "Wide front compound view",
+    image: "/images/property/building-front-wide.png",
+    alt: "Wide executive view of the front building and paved compound at JB Executive Suites.",
+  },
+  {
+    title: "Courtyard wing",
+    image: "/images/property/building-courtyard-wing-01.png",
+    alt: "Courtyard-facing side of JB Executive Suites showing the building wing and open paved space.",
+  },
+  {
+    title: "Courtyard wing close view",
+    image: "/images/property/building-courtyard-wing-02.png",
+    alt: "Closer exterior view of the JB Executive Suites courtyard wing.",
+  },
+  {
+    title: "Wide courtyard compound",
+    image: "/images/property/building-courtyard-wide.png",
+    alt: "Wide paved courtyard and exterior view across the JB Executive Suites compound.",
   },
   {
     title: "Guest room",
@@ -123,6 +143,54 @@ export const galleryCollections = [
     title: "Staircase",
     image: "/images/property/staircase.webp",
     alt: "Staircase inside JB Executive Suites.",
+  },
+];
+
+export const propertyShowcaseImages = [
+  {
+    title: "Full front building view",
+    image: "/images/property/building-front-overview.png",
+    alt: "Full exterior view of the main JB Executive Suites building and paved frontage.",
+  },
+  {
+    title: "Front porch and entrance",
+    image: "/images/property/building-front-porch.png",
+    alt: "Front porch and entry approach at JB Executive Suites.",
+  },
+  {
+    title: "Wide front compound",
+    image: "/images/property/building-front-wide.png",
+    alt: "Wide executive view of the front building and paved compound at JB Executive Suites.",
+  },
+  {
+    title: "Courtyard wing",
+    image: "/images/property/building-courtyard-wing-01.png",
+    alt: "Courtyard-facing side of JB Executive Suites showing the building wing and open paved space.",
+  },
+  {
+    title: "Wide courtyard",
+    image: "/images/property/building-courtyard-wide.png",
+    alt: "Wide paved courtyard and exterior view across the JB Executive Suites compound.",
+  },
+  {
+    title: "Standard room",
+    image: "/images/rooms/room-standard-01.webp",
+    alt: "Standard guest room at JB Executive Suites.",
+  },
+  {
+    title: "Executive room",
+    image: "/images/rooms/room-executive-01.webp",
+    alt: "Executive room bed detail at JB Executive Suites.",
+  },
+  {
+    title: "Kitchenette",
+    image: "/images/amenities/kitchenette.webp",
+    alt: "Compact kitchenette area inside a JB Executive Suites room.",
+  },
+  {
+    title: "Lounge",
+    image: "/images/amenities/lounge.webp",
+    alt: "Lounge area at JB Executive Suites.",
   },
 ];
 
