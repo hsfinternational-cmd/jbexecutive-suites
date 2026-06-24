@@ -30,22 +30,22 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative min-h-[740px] overflow-hidden bg-[var(--brand-green-dark)] text-white">
         <div className="image-wash absolute inset-0" />
-        <div className="container-shell relative grid min-h-[740px] gap-10 pb-12 pt-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className="container-shell relative grid min-h-[740px] gap-8 pb-12 pt-20 sm:gap-10 sm:pt-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="max-w-3xl pb-2 lg:pb-8">
             <p className="mb-4 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur">
               {property.locationLabel}
             </p>
-            <h1 className="max-w-4xl text-5xl leading-tight md:text-7xl">{property.tagline}</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/86">{property.supportLine}</p>
+            <h1 className="max-w-[12ch] text-4xl leading-tight sm:max-w-4xl sm:text-5xl md:text-7xl">{property.tagline}</h1>
+            <p className="mt-5 max-w-[31ch] text-base leading-7 text-white/86 sm:max-w-2xl sm:text-lg sm:leading-8">{property.supportLine}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={property.whatsappUrl} className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)] px-5 py-3 font-semibold text-white">
+              <Link href={property.whatsappUrl} className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--brand-orange)] px-5 py-3 text-sm font-semibold text-white sm:text-base">
                 Book on WhatsApp
                 <ArrowRight size={18} />
               </Link>
-              <Link href="/gallery" className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 font-semibold text-white">
+              <Link href="/gallery" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 text-sm font-semibold text-white sm:text-base">
                 View Property
               </Link>
-              <Link href={toCallHref(property.primaryPhone)} className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 font-semibold text-white">
+              <Link href={toCallHref(property.primaryPhone)} className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white sm:text-base">
                 <Phone size={18} />
                 Call to Book
               </Link>

@@ -35,15 +35,15 @@ export function PropertyHeroSlideshow({ images }: { images: PropertySlide[] }) {
   if (!activeImage) return null;
 
   return (
-    <div className="space-y-4 lg:pl-6">
-      <div className="relative overflow-hidden rounded-[28px] border border-white/15 bg-[linear-gradient(135deg,rgba(0,77,43,0.96),rgba(5,104,57,0.72))] shadow-[var(--shadow-soft)]">
-        <div className="relative flex min-h-[380px] items-center justify-center p-3 sm:min-h-[480px] lg:min-h-[550px]">
+    <div className="min-w-0 space-y-4 lg:pl-6">
+      <div className="relative overflow-hidden rounded-[24px] border border-white/15 bg-[linear-gradient(135deg,rgba(0,77,43,0.96),rgba(5,104,57,0.72))] shadow-[var(--shadow-soft)] sm:rounded-[28px]">
+        <div className="relative flex h-[360px] items-center justify-center p-3 sm:h-[480px] lg:h-[550px]">
           <Image
             src={activeImage.image}
             alt={activeImage.alt}
             fill
             priority
-            className="object-contain p-3"
+            className="object-contain p-4"
             sizes="(max-width: 1024px) 100vw, 52vw"
           />
         </div>
@@ -75,14 +75,14 @@ export function PropertyHeroSlideshow({ images }: { images: PropertySlide[] }) {
       </div>
 
       <div className="rounded-[24px] border border-white/15 bg-[rgba(0,77,43,0.5)] p-3 backdrop-blur">
-        <div className="flex gap-3 overflow-x-auto pb-1">
+        <div className="flex max-w-full gap-3 overflow-x-auto pb-1">
           {images.map((image, index) => (
             <button
               key={image.image}
               type="button"
               onClick={() => setActiveIndex(index)}
               aria-label={`Show ${image.title}`}
-              className={`relative h-24 w-36 shrink-0 overflow-hidden rounded-2xl border bg-[var(--brand-green-dark)] transition ${
+              className={`relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl border bg-[var(--brand-green-dark)] transition sm:w-36 ${
                 index === activeIndex ? "border-[var(--brand-orange)]" : "border-white/18 opacity-78 hover:opacity-100"
               }`}
             >
